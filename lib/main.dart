@@ -41,22 +41,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _getCountries() async {
-    // try {
-    //   var dio = Dio(BaseOptions(responseType: ResponseType.plain));
-    //   var response =
-    //       await dio.get('https://api.sampleapis.com/countries/countries');
-    //   List<dynamic> list = jsonDecode(response.data);
-    //   setState(() {
-    //     _countries = list.map((country) => Country.fromJson(country)).toList();
-    //     _countries!.sort((a, b) => a.name!.compareTo(b.name!));
-    //   });
-    // } catch (e) {
-    //   print('Error fetching countries: $e');
-    //   // Handle the error gracefully, e.g., show a message to the user
-    //   setState(() {
-    //     _countries = []; // Clear the countries list or set it to null
-    //   });
-    // }
     var dio = Dio(BaseOptions(responseType: ResponseType.plain));
     var response =
         await dio.get('https://api.sampleapis.com/countries/countries');
@@ -148,34 +132,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  // Widget _buildCountryList() {
-  //   if (_countries == null) {
-  //     return const Center(child: CircularProgressIndicator());
-  //   } else if (_countries!.isEmpty) {
-  //     return const Center(child: Text('No countries found'));
-  //   } else {
-  //     return ListView.builder(
-  //       itemCount: _countries!.length,
-  //       itemBuilder: (context, index) {
-  //         var country = _countries![index];
-
-  //         return ListTile(
-  //           title: Text(country.name ?? ''),
-  //           subtitle: Text(country.abbreviation ?? ''),
-  //           trailing: country.flag == null
-  //               ? null
-  //               : Image.network(
-  //                   country.flag!,
-  //                   errorBuilder: (context, error, stackTrace) {
-  //                     return const Icon(Icons.error, color: Colors.red);
-  //                   },
-  //                 ),
-  //         );
-  //       },
-  //     );
-  //   }
-  // }
-
   Future<void> _showCountryDetails(String capital, int population,
       String currency, String phone, String flag, String emblem) async {
     return showDialog<void>(
@@ -191,22 +147,22 @@ class _MyHomePageState extends State<MyHomePage> {
                 Text('Population: $population'),
                 Text('Currency: $currency'),
                 Text('Phone: $phone'),
-                flag.isEmpty
+                flag.isNotEmpty
                     ? Image.network(
                         flag,
                         errorBuilder: (context, error, stackTrace) {
-                          return const Text('Image not available');
+                          return const Text('Flag image not available');
                         },
                       )
-                    : const Text('No image available'),
-                emblem.isEmpty
+                    : const Text('Flag image not available'),
+                emblem.isNotEmpty
                     ? Image.network(
                         emblem,
                         errorBuilder: (context, error, stackTrace) {
-                          return const Text('Image not available');
+                          return const Text('Emblem image not available');
                         },
                       )
-                    : const Text('No image available'),
+                    : const Text('Emblem image not available'),
               ],
             ),
           ),
